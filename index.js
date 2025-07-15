@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require("dotenv").config();
 const mongoose = require('mongoose');
+const { syncFromRequest } = require('./controllers/sales.controller');
 const app = express();
 const PORT = 3000;
 
@@ -9,10 +10,7 @@ const PORT = 3000;
 app.use(bodyParser.json());
 
 // Simple POST endpoint
-app.post('/', (req, res) => {
-  console.log('Received data:', req.body);
-  res.sendStatus(200);
-});
+app.post('/', syncFromRequest);
 
 const connectDB = async () => {
   try {

@@ -11,6 +11,7 @@ class SalesTeamController {
 syncFromRequest = asyncHandler(async (req, res) => {
   try {
     const data = req.body;
+    console.log(data);
 
     const platformMap = {
       fb: 'Facebook',
