@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+require("dotenv").config();
+const mongoose = require('mongoose');
 const app = express();
 const PORT = 3000;
 
@@ -13,7 +14,20 @@ app.post('/', (req, res) => {
   res.sendStatus(200);
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ Connected to MongoDB");
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error);
+    process.exit(1);
+  }
+};
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on ${PORT}`);
+  });
 });
